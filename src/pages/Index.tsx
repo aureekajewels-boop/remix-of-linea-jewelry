@@ -1,25 +1,23 @@
-import Header from "../components/header/Header";
-import Footer from "../components/footer/Footer";
-import LargeHero from "../components/content/LargeHero";
-import FiftyFiftySection from "../components/content/FiftyFiftySection";
-import OneThirdTwoThirdsSection from "../components/content/OneThirdTwoThirdsSection";
-import ProductCarousel from "../components/content/ProductCarousel";
-import EditorialSection from "../components/content/EditorialSection";
+import AureekaHeader from "../components/header/AureekaHeader";
+import AureekaFooter from "../components/footer/AureekaFooter";
+import HeroBanner from "../components/home/HeroBanner";
+import OrnamentHub from "../components/home/OrnamentHub";
+import BrandSection from "../components/home/BrandSection";
+import LatestSparkles from "../components/home/LatestSparkles";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <AureekaHeader />
       
-      <main className="pt-6">
-        <FiftyFiftySection />
-        <ProductCarousel />
-        <LargeHero />
-        <OneThirdTwoThirdsSection />
-        <EditorialSection />
+      <main>
+        <HeroBanner />
+        <OrnamentHub />
+        <LatestSparkles />
+        <BrandSection />
       </main>
       
-      <Footer />
+      <AureekaFooter />
     </div>
   );
 };
