@@ -1,109 +1,112 @@
-import Header from "../../components/header/Header";
-import Footer from "../../components/footer/Footer";
-import PageHeader from "../../components/about/PageHeader";
-import ContentSection from "../../components/about/ContentSection";
-import AboutSidebar from "../../components/about/AboutSidebar";
+import { useEffect } from "react";
+import { Leaf, Recycle, Heart, Package } from "lucide-react";
+import AureekaHeader from "../../components/header/AureekaHeader";
+import AureekaFooter from "../../components/footer/AureekaFooter";
 
 const Sustainability = () => {
+  useEffect(() => {
+    document.title = "Sustainability - Aureeka Jewels";
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <AureekaHeader />
       
-      <div className="flex">
-        <div className="hidden lg:block">
-          <AboutSidebar />
+      <main className="pt-6 pb-16">
+        <div className="container mx-auto px-4 max-w-4xl">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <h1 className="font-display text-3xl md:text-4xl font-semibold text-foreground mb-4">
+              Our Commitment to Sustainability
+            </h1>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Beautiful jewellery that's kind to the planet
+            </p>
+          </div>
+
+          {/* Main Message */}
+          <div className="bg-gradient-to-br from-green-50 to-cream-50 rounded-2xl p-8 md:p-12 text-center mb-12">
+            <Leaf className="h-12 w-12 text-green-600 mx-auto mb-6" />
+            <h2 className="font-display text-2xl font-semibold text-foreground mb-4">
+              Fashion with Responsibility
+            </h2>
+            <p className="text-muted-foreground max-w-lg mx-auto">
+              At Aureeka Jewels, we believe that looking good shouldn't come at the cost of our environment. 
+              We're committed to sustainable practices in every aspect of our business.
+            </p>
+          </div>
+
+          {/* Initiatives */}
+          <div className="grid md:grid-cols-2 gap-6 mb-12">
+            <div className="bg-cream-50 rounded-2xl p-6">
+              <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-4">
+                <Package className="h-6 w-6 text-green-600" />
+              </div>
+              <h3 className="font-semibold text-foreground mb-2">Eco-Friendly Packaging</h3>
+              <p className="text-sm text-muted-foreground">
+                All our packaging is made from recycled materials and is 100% recyclable. 
+                We use minimal plastic and opt for paper-based alternatives.
+              </p>
+            </div>
+            
+            <div className="bg-cream-50 rounded-2xl p-6">
+              <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-4">
+                <Recycle className="h-6 w-6 text-green-600" />
+              </div>
+              <h3 className="font-semibold text-foreground mb-2">Quality Over Quantity</h3>
+              <p className="text-sm text-muted-foreground">
+                We focus on creating durable, timeless pieces that last. 
+                Our jewellery is designed to be worn for years, not discarded after a few uses.
+              </p>
+            </div>
+            
+            <div className="bg-cream-50 rounded-2xl p-6">
+              <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-4">
+                <Heart className="h-6 w-6 text-green-600" />
+              </div>
+              <h3 className="font-semibold text-foreground mb-2">Ethical Sourcing</h3>
+              <p className="text-sm text-muted-foreground">
+                We work with trusted suppliers who follow ethical practices. 
+                Our materials are sourced responsibly with fair labor practices.
+              </p>
+            </div>
+            
+            <div className="bg-cream-50 rounded-2xl p-6">
+              <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mb-4">
+                <Leaf className="h-6 w-6 text-green-600" />
+              </div>
+              <h3 className="font-semibold text-foreground mb-2">Carbon Conscious</h3>
+              <p className="text-sm text-muted-foreground">
+                We optimize our shipping routes to reduce carbon emissions and 
+                partner with eco-conscious logistics providers.
+              </p>
+            </div>
+          </div>
+
+          {/* Goals */}
+          <div className="bg-cream-50 rounded-2xl p-8">
+            <h2 className="font-display text-xl font-semibold text-foreground text-center mb-8">
+              Our Goals for 2025
+            </h2>
+            <div className="grid md:grid-cols-3 gap-6 text-center">
+              <div>
+                <div className="text-3xl font-bold text-green-600 mb-2">100%</div>
+                <p className="text-sm text-muted-foreground">Plastic-free packaging</p>
+              </div>
+              <div>
+                <div className="text-3xl font-bold text-green-600 mb-2">50%</div>
+                <p className="text-sm text-muted-foreground">Recycled materials in products</p>
+              </div>
+              <div>
+                <div className="text-3xl font-bold text-green-600 mb-2">Carbon</div>
+                <p className="text-sm text-muted-foreground">Neutral shipping</p>
+              </div>
+            </div>
+          </div>
         </div>
-        
-        <main className="w-full lg:w-[70vw] lg:ml-auto px-6">
-        <PageHeader 
-          title="Sustainability" 
-          subtitle="Creating beautiful jewelry while protecting our planet for future generations"
-        />
-        
-        <ContentSection title="Our Environmental Commitment">
-          <div className="grid md:grid-cols-2 gap-12 mb-16">
-            <div className="space-y-6">
-              <h3 className="text-xl font-light text-foreground">Ethical Sourcing</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                We partner only with suppliers who share our commitment to ethical practices. Every gemstone and precious metal in our collection is sourced responsibly, with full transparency in our supply chain.
-              </p>
-            </div>
-            <div className="space-y-6">
-              <h3 className="text-xl font-light text-foreground">Recycled Materials</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Over 80% of our precious metals come from recycled sources, reducing the environmental impact of mining while maintaining the highest quality standards for our jewelry.
-              </p>
-            </div>
-          </div>
-
-          <div className="bg-muted/10 rounded-lg p-8">
-            <h3 className="text-2xl font-light text-foreground mb-6">Our Impact Goals</h3>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div>
-                <div className="text-3xl font-light text-primary mb-2">100%</div>
-                <p className="text-sm text-muted-foreground">Carbon neutral operations by 2025</p>
-              </div>
-              <div>
-                <div className="text-3xl font-light text-primary mb-2">90%</div>
-                <p className="text-sm text-muted-foreground">Recycled packaging materials</p>
-              </div>
-              <div>
-                <div className="text-3xl font-light text-primary mb-2">Zero</div>
-                <p className="text-sm text-muted-foreground">Waste to landfill policy</p>
-              </div>
-            </div>
-          </div>
-        </ContentSection>
-
-        <ContentSection title="Circular Economy">
-          <div className="space-y-8">
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              We believe in the power of circular design - creating jewelry that can be treasured, repaired, and eventually recycled into new pieces.
-            </p>
-            
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="space-y-4">
-                <h3 className="text-lg font-light text-foreground">Lifetime Care</h3>
-                <p className="text-muted-foreground">
-                  Every piece comes with our lifetime care promise, including professional cleaning, repairs, and resizing services.
-                </p>
-              </div>
-              <div className="space-y-4">
-                <h3 className="text-lg font-light text-foreground">Take-Back Program</h3>
-                <p className="text-muted-foreground">
-                  When you're ready for something new, we'll take back your LINEA jewelry to be recycled into future pieces.
-                </p>
-              </div>
-            </div>
-          </div>
-        </ContentSection>
-
-        <ContentSection title="Certifications & Partnerships">
-          <div className="space-y-8">
-            <p className="text-muted-foreground leading-relaxed">
-              Our commitment to sustainability is verified through partnerships with leading organizations and certifications that hold us accountable to the highest standards.
-            </p>
-            
-            <div className="grid md:grid-cols-4 gap-8 items-center">
-              <div className="h-16 w-32 bg-muted/10 rounded-lg flex items-center justify-center">
-                <span className="text-xs text-muted-foreground">RJC Certified</span>
-              </div>
-              <div className="h-16 w-32 bg-muted/10 rounded-lg flex items-center justify-center">
-                <span className="text-xs text-muted-foreground">B Corp</span>
-              </div>
-              <div className="h-16 w-32 bg-muted/10 rounded-lg flex items-center justify-center">
-                <span className="text-xs text-muted-foreground">SCS Certified</span>
-              </div>
-              <div className="h-16 w-32 bg-muted/10 rounded-lg flex items-center justify-center">
-                <span className="text-xs text-muted-foreground">Fair Trade</span>
-              </div>
-            </div>
-          </div>
-        </ContentSection>
-        </main>
-      </div>
+      </main>
       
-      <Footer />
+      <AureekaFooter />
     </div>
   );
 };
