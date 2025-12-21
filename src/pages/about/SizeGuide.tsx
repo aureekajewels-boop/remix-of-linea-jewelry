@@ -1,152 +1,178 @@
-import Header from "../../components/header/Header";
-import Footer from "../../components/footer/Footer";
-import PageHeader from "../../components/about/PageHeader";
-import ContentSection from "../../components/about/ContentSection";
-import { Button } from "../../components/ui/button";
-import AboutSidebar from "../../components/about/AboutSidebar";
+import { useEffect } from "react";
+import AureekaHeader from "../../components/header/AureekaHeader";
+import AureekaFooter from "../../components/footer/AureekaFooter";
 
 const SizeGuide = () => {
+  useEffect(() => {
+    document.title = "Size Guide - Aureeka Jewels";
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <AureekaHeader />
       
-      <div className="flex">
-        <div className="hidden lg:block">
-          <AboutSidebar />
-        </div>
-        
-        <main className="w-full lg:w-[70vw] lg:ml-auto px-6">
-        <PageHeader 
-          title="Size Guide" 
-          subtitle="Find your perfect fit with our comprehensive sizing guide"
-        />
-        
-        <ContentSection title="Ring Sizing">
-          <div className="space-y-8">
-            <div className="bg-muted/10 rounded-lg p-8">
-              <h3 className="text-xl font-light text-foreground mb-6">How to Measure Your Ring Size</h3>
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="space-y-4">
-                  <h4 className="font-medium text-foreground">Method 1: Using a Ring You Own</h4>
-                  <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
-                    <li>Take a ring that fits comfortably on your desired finger</li>
-                    <li>Place it on a ruler and measure the inner diameter in millimeters</li>
-                    <li>Use our size chart below to find your size</li>
+      <main className="pt-6 pb-16">
+        <div className="container mx-auto px-4 max-w-4xl">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <h1 className="font-display text-3xl md:text-4xl font-semibold text-foreground mb-4">
+              Size Guide
+            </h1>
+            <p className="text-muted-foreground">
+              Find your perfect fit with our comprehensive sizing guide
+            </p>
+          </div>
+
+          {/* Ring Sizes */}
+          <section className="mb-12">
+            <h2 className="font-display text-2xl font-semibold text-foreground mb-6">
+              Ring Sizing
+            </h2>
+            <div className="bg-cream-50 rounded-2xl p-6 mb-6">
+              <h3 className="font-semibold text-foreground mb-4">How to Measure Your Ring Size</h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-medium text-foreground mb-2">Method 1: Using a Ring</h4>
+                  <ol className="list-decimal list-inside space-y-2 text-sm text-muted-foreground">
+                    <li>Take a ring that fits well</li>
+                    <li>Measure inner diameter in mm</li>
+                    <li>Match with size chart below</li>
                   </ol>
                 </div>
-                <div className="space-y-4">
-                  <h4 className="font-medium text-foreground">Method 2: Using String or Paper</h4>
-                  <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
-                    <li>Wrap string or paper around your finger where the ring will sit</li>
-                    <li>Mark where the material overlaps</li>
-                    <li>Measure the length in millimeters</li>
-                    <li>Divide by 3.14 to get the diameter</li>
+                <div>
+                  <h4 className="font-medium text-foreground mb-2">Method 2: Using String</h4>
+                  <ol className="list-decimal list-inside space-y-2 text-sm text-muted-foreground">
+                    <li>Wrap string around finger</li>
+                    <li>Mark where it overlaps</li>
+                    <li>Measure length and divide by 3.14</li>
                   </ol>
                 </div>
               </div>
             </div>
-
+            
             <div className="overflow-x-auto">
-              <table className="w-full border-collapse border border-border">
+              <table className="w-full border-collapse">
                 <thead>
-                  <tr className="bg-muted/20">
-                    <th className="border border-border p-3 text-left font-light">US Size</th>
-                    <th className="border border-border p-3 text-left font-light">UK Size</th>
-                    <th className="border border-border p-3 text-left font-light">EU Size</th>
-                    <th className="border border-border p-3 text-left font-light">Diameter (mm)</th>
-                    <th className="border border-border p-3 text-left font-light">Circumference (mm)</th>
+                  <tr className="bg-cream-100">
+                    <th className="p-3 text-left text-sm font-medium">Indian Size</th>
+                    <th className="p-3 text-left text-sm font-medium">US Size</th>
+                    <th className="p-3 text-left text-sm font-medium">Diameter (mm)</th>
+                    <th className="p-3 text-left text-sm font-medium">Circumference (mm)</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-cream-200">
                   {[
-                    { us: "5", uk: "J", eu: "49", diameter: "15.6", circumference: "49.0" },
-                    { us: "5.5", uk: "K", eu: "50", diameter: "16.0", circumference: "50.2" },
-                    { us: "6", uk: "L", eu: "51", diameter: "16.4", circumference: "51.5" },
-                    { us: "6.5", uk: "M", eu: "52", diameter: "16.8", circumference: "52.8" },
-                    { us: "7", uk: "N", eu: "54", diameter: "17.2", circumference: "54.0" },
-                    { us: "7.5", uk: "O", eu: "55", diameter: "17.6", circumference: "55.3" },
-                    { us: "8", uk: "P", eu: "56", diameter: "18.0", circumference: "56.5" },
-                    { us: "8.5", uk: "Q", eu: "57", diameter: "18.4", circumference: "57.8" },
-                    { us: "9", uk: "R", eu: "59", diameter: "18.8", circumference: "59.1" }
+                    { indian: "6", us: "3", diameter: "14.1", circumference: "44.2" },
+                    { indian: "8", us: "4", diameter: "14.9", circumference: "46.8" },
+                    { indian: "10", us: "5", diameter: "15.7", circumference: "49.3" },
+                    { indian: "12", us: "6", diameter: "16.5", circumference: "51.9" },
+                    { indian: "14", us: "7", diameter: "17.3", circumference: "54.4" },
+                    { indian: "16", us: "8", diameter: "18.1", circumference: "56.9" },
+                    { indian: "18", us: "9", diameter: "18.9", circumference: "59.5" },
                   ].map((size, index) => (
-                    <tr key={index} className="hover:bg-muted/10">
-                      <td className="border border-border p-3">{size.us}</td>
-                      <td className="border border-border p-3">{size.uk}</td>
-                      <td className="border border-border p-3">{size.eu}</td>
-                      <td className="border border-border p-3">{size.diameter}</td>
-                      <td className="border border-border p-3">{size.circumference}</td>
+                    <tr key={index} className="hover:bg-cream-50">
+                      <td className="p-3 text-sm">{size.indian}</td>
+                      <td className="p-3 text-sm">{size.us}</td>
+                      <td className="p-3 text-sm">{size.diameter}</td>
+                      <td className="p-3 text-sm">{size.circumference}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-          </div>
-        </ContentSection>
+          </section>
 
-        <ContentSection title="Bracelet & Necklace Sizing">
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="space-y-6">
-              <h3 className="text-xl font-light text-foreground">Bracelet Sizes</h3>
-              <div className="space-y-4">
-                <div className="flex justify-between py-2 border-b border-border">
-                  <span className="text-muted-foreground">Small</span>
-                  <span className="text-foreground">6.5" - 7"</span>
+          {/* Bangles */}
+          <section className="mb-12">
+            <h2 className="font-display text-2xl font-semibold text-foreground mb-6">
+              Bangle Sizing
+            </h2>
+            <div className="bg-cream-50 rounded-2xl p-6">
+              <div className="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="font-semibold text-foreground mb-4">Standard Sizes</h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between py-2 border-b border-cream-200">
+                      <span className="text-muted-foreground">2.2</span>
+                      <span className="text-foreground">Extra Small</span>
+                    </div>
+                    <div className="flex justify-between py-2 border-b border-cream-200">
+                      <span className="text-muted-foreground">2.4</span>
+                      <span className="text-foreground">Small</span>
+                    </div>
+                    <div className="flex justify-between py-2 border-b border-cream-200">
+                      <span className="text-muted-foreground">2.6</span>
+                      <span className="text-foreground">Medium</span>
+                    </div>
+                    <div className="flex justify-between py-2 border-b border-cream-200">
+                      <span className="text-muted-foreground">2.8</span>
+                      <span className="text-foreground">Large</span>
+                    </div>
+                    <div className="flex justify-between py-2">
+                      <span className="text-muted-foreground">2.10</span>
+                      <span className="text-foreground">Extra Large</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex justify-between py-2 border-b border-border">
-                  <span className="text-muted-foreground">Medium</span>
-                  <span className="text-foreground">7" - 7.5"</span>
-                </div>
-                <div className="flex justify-between py-2 border-b border-border">
-                  <span className="text-muted-foreground">Large</span>
-                  <span className="text-foreground">7.5" - 8"</span>
+                <div>
+                  <h3 className="font-semibold text-foreground mb-4">How to Measure</h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Measure the widest part of your palm when your fingers are pressed together. The measurement in inches corresponds to the bangle size.
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    <strong>Tip:</strong> If you're between sizes, choose the larger size for comfort.
+                  </p>
                 </div>
               </div>
             </div>
-            
-            <div className="space-y-6">
-              <h3 className="text-xl font-light text-foreground">Necklace Lengths</h3>
-              <div className="space-y-4">
-                <div className="flex justify-between py-2 border-b border-border">
-                  <span className="text-muted-foreground">Choker</span>
-                  <span className="text-foreground">14" - 16"</span>
+          </section>
+
+          {/* Necklaces */}
+          <section>
+            <h2 className="font-display text-2xl font-semibold text-foreground mb-6">
+              Necklace & Chain Lengths
+            </h2>
+            <div className="bg-cream-50 rounded-2xl p-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-3">
+                  <div className="flex justify-between py-2 border-b border-cream-200">
+                    <span className="text-muted-foreground">Choker</span>
+                    <span className="text-foreground">14-16 inches</span>
+                  </div>
+                  <div className="flex justify-between py-2 border-b border-cream-200">
+                    <span className="text-muted-foreground">Princess</span>
+                    <span className="text-foreground">17-19 inches</span>
+                  </div>
+                  <div className="flex justify-between py-2 border-b border-cream-200">
+                    <span className="text-muted-foreground">Matinee</span>
+                    <span className="text-foreground">20-24 inches</span>
+                  </div>
+                  <div className="flex justify-between py-2">
+                    <span className="text-muted-foreground">Opera</span>
+                    <span className="text-foreground">28-36 inches</span>
+                  </div>
                 </div>
-                <div className="flex justify-between py-2 border-b border-border">
-                  <span className="text-muted-foreground">Princess</span>
-                  <span className="text-foreground">17" - 19"</span>
-                </div>
-                <div className="flex justify-between py-2 border-b border-border">
-                  <span className="text-muted-foreground">Matinee</span>
-                  <span className="text-foreground">20" - 24"</span>
-                </div>
-                <div className="flex justify-between py-2 border-b border-border">
-                  <span className="text-muted-foreground">Opera</span>
-                  <span className="text-foreground">28" - 36"</span>
+                <div className="text-sm text-muted-foreground">
+                  <p className="mb-3">
+                    <strong>Choker:</strong> Sits on the neck, perfect for round necklines.
+                  </p>
+                  <p className="mb-3">
+                    <strong>Princess:</strong> Most popular length, suits most necklines.
+                  </p>
+                  <p className="mb-3">
+                    <strong>Matinee:</strong> Falls at the top of the bust, great for layering.
+                  </p>
+                  <p>
+                    <strong>Opera:</strong> Long length, can be doubled for layered look.
+                  </p>
                 </div>
               </div>
             </div>
-          </div>
-        </ContentSection>
-
-        <ContentSection title="Need Help?">
-          <div className="space-y-6">
-            <p className="text-muted-foreground">
-              Still unsure about sizing? Our jewelry consultants are here to help you find the perfect fit. 
-              Download our printable size guide or schedule a virtual consultation.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button variant="outline" className="rounded-none">
-                Download PDF Guide
-              </Button>
-              <Button className="rounded-none">
-                Schedule Consultation
-              </Button>
-            </div>
-          </div>
-        </ContentSection>
-        </main>
-      </div>
+          </section>
+        </div>
+      </main>
       
-      <Footer />
+      <AureekaFooter />
     </div>
   );
 };

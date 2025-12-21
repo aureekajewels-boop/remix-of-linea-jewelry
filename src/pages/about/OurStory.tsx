@@ -1,79 +1,111 @@
-import Header from "../../components/header/Header";
-import Footer from "../../components/footer/Footer";
-import PageHeader from "../../components/about/PageHeader";
-import ContentSection from "../../components/about/ContentSection";
-import ImageTextBlock from "../../components/about/ImageTextBlock";
-import AboutSidebar from "../../components/about/AboutSidebar";
+import { useEffect } from "react";
+import AureekaHeader from "../../components/header/AureekaHeader";
+import AureekaFooter from "../../components/footer/AureekaFooter";
+
+import heroBanner from "@/assets/aureeka/hero-banner.jpg";
 
 const OurStory = () => {
+  useEffect(() => {
+    document.title = "About Us - Aureeka Jewels";
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <AureekaHeader />
       
-      <div className="flex">
-        <div className="hidden lg:block">
-          <AboutSidebar />
-        </div>
-        
-        <main className="w-full lg:w-[70vw] lg:ml-auto px-6">
-          <PageHeader 
-            title="Our Story" 
-            subtitle="A journey of passion, craftsmanship, and timeless elegance"
-          />
-          
-          <ContentSection>
-            <ImageTextBlock
-              image="/founders.png"
-              imageAlt="Company founders"
-              title="Founded on Passion"
-              content="LINEA Jewelry was born from a shared vision of creating timeless pieces that transcend fleeting trends. Our founders, united by their passion for exceptional craftsmanship and sustainable practices, established the brand with a commitment to creating jewelry that tells a story - your story."
-              imagePosition="left"
-            />
-          </ContentSection>
+      <main className="pt-6 pb-16">
+        <div className="container mx-auto px-4">
+          {/* Hero */}
+          <div className="text-center mb-12">
+            <h1 className="font-display text-3xl md:text-4xl font-semibold text-foreground mb-4">
+              About Aureeka Jewels
+            </h1>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Bringing elegance to every woman through affordable fashion jewellery
+            </p>
+          </div>
 
-          <ContentSection title="Our Heritage">
-            <div className="grid md:grid-cols-2 gap-12">
-              <div className="space-y-6">
-                <h3 className="text-xl font-light text-foreground">Traditional Craftsmanship</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  Every piece in our collection is meticulously handcrafted by skilled artisans who have honed their craft over generations. We honor traditional techniques while embracing modern innovation, ensuring each piece meets our exacting standards for quality and beauty.
-                </p>
-              </div>
-              <div className="space-y-6">
-                <h3 className="text-xl font-light text-foreground">Sustainable Future</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  We believe luxury and sustainability can coexist beautifully. Our commitment to ethical sourcing, recycled materials, and responsible manufacturing practices ensures that every piece you wear contributes to a more sustainable future.
-                </p>
-              </div>
+          {/* Image & Story */}
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center mb-16">
+            <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-cream-100">
+              <img 
+                src={heroBanner} 
+                alt="Aureeka Jewels Story" 
+                className="w-full h-full object-cover"
+              />
             </div>
-          </ContentSection>
+            <div className="space-y-6">
+              <h2 className="font-display text-2xl font-semibold text-foreground">
+                Our Journey
+              </h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Aureeka Jewels was born from a simple belief: every woman deserves to feel beautiful and confident without breaking the bank. We curate stunning fashion jewellery that combines traditional Indian craftsmanship with modern trends.
+              </p>
+              <p className="text-muted-foreground leading-relaxed">
+                From intricate Kundan pieces to sleek Korean designs, from statement oxidised jewellery to sparkling American Diamond collections – we bring you the best of fashion jewellery, handpicked for quality and style.
+              </p>
+            </div>
+          </div>
 
-          <ContentSection title="Our Values">
+          {/* Values */}
+          <div className="bg-cream-50 rounded-2xl p-8 md:p-12 mb-16">
+            <h2 className="font-display text-2xl font-semibold text-foreground text-center mb-10">
+              What We Stand For
+            </h2>
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="space-y-4">
-                <h3 className="text-lg font-light text-foreground">Excellence</h3>
-                <p className="text-muted-foreground">
-                  We pursue perfection in every detail, from the initial design concept to the final polish.
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-gold-100 flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">✨</span>
+                </div>
+                <h3 className="font-semibold text-foreground mb-2">Quality First</h3>
+                <p className="text-sm text-muted-foreground">
+                  Every piece is carefully inspected to ensure premium quality at affordable prices.
                 </p>
               </div>
-              <div className="space-y-4">
-                <h3 className="text-lg font-light text-foreground">Authenticity</h3>
-                <p className="text-muted-foreground">
-                  Each piece reflects genuine craftsmanship and tells an authentic story of artistry and care.
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-gold-100 flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">💜</span>
+                </div>
+                <h3 className="font-semibold text-foreground mb-2">Customer Love</h3>
+                <p className="text-sm text-muted-foreground">
+                  Your satisfaction is our priority. We're here to help you find your perfect piece.
                 </p>
               </div>
-              <div className="space-y-4">
-                <h3 className="text-lg font-light text-foreground">Innovation</h3>
-                <p className="text-muted-foreground">
-                  We continuously evolve our designs and techniques while honoring timeless aesthetic principles.
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-gold-100 flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">🌸</span>
+                </div>
+                <h3 className="font-semibold text-foreground mb-2">Trendy Designs</h3>
+                <p className="text-sm text-muted-foreground">
+                  Stay fashionable with our constantly updated collection of trending styles.
                 </p>
               </div>
             </div>
-          </ContentSection>
-        </main>
-      </div>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div className="bg-cream-50 rounded-xl p-6">
+              <div className="text-3xl font-bold text-primary mb-1">10K+</div>
+              <div className="text-sm text-muted-foreground">Happy Customers</div>
+            </div>
+            <div className="bg-cream-50 rounded-xl p-6">
+              <div className="text-3xl font-bold text-primary mb-1">500+</div>
+              <div className="text-sm text-muted-foreground">Unique Designs</div>
+            </div>
+            <div className="bg-cream-50 rounded-xl p-6">
+              <div className="text-3xl font-bold text-primary mb-1">4.8★</div>
+              <div className="text-sm text-muted-foreground">Average Rating</div>
+            </div>
+            <div className="bg-cream-50 rounded-xl p-6">
+              <div className="text-3xl font-bold text-primary mb-1">Pan India</div>
+              <div className="text-sm text-muted-foreground">Delivery</div>
+            </div>
+          </div>
+        </div>
+      </main>
       
-      <Footer />
+      <AureekaFooter />
     </div>
   );
 };
