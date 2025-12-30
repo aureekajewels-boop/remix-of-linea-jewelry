@@ -1,91 +1,123 @@
+
 import { Link } from "react-router-dom";
-import { 
-  Phone, 
-  Mail, 
-  MapPin, 
-  Instagram, 
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Instagram,
   Facebook,
-  MessageCircle
+  MessageCircle,
 } from "lucide-react";
 
 const AureekaFooter = () => {
   return (
-    <footer className="bg-foreground text-background pt-12 pb-6">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
-          {/* Brand */}
-          <div className="col-span-2 md:col-span-1">
-            <h3 className="font-display text-2xl font-semibold text-gold-400 mb-4">
+    <footer className="bg-[#2a231d] text-[#f5efe6] pt-14 pb-6">
+      <div className="container mx-auto px-6">
+
+        {/* TOP GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+
+          {/* BRAND */}
+          <div>
+            <h3 className="font-serif text-2xl text-[#d4af37] mb-4">
               Aureeka Jewels
             </h3>
-            <p className="text-cream-400 text-sm font-light mb-4">
+            <p className="text-sm text-[#e6dccf] leading-relaxed mb-4">
               Affordable fashion jewellery for the modern woman.
             </p>
+
             <div className="flex gap-3">
-              <a href="#" className="w-9 h-9 rounded-full bg-cream-400/10 flex items-center justify-center hover:bg-primary transition-colors">
-                <Instagram className="h-4 w-4" />
-              </a>
-              <a href="#" className="w-9 h-9 rounded-full bg-cream-400/10 flex items-center justify-center hover:bg-primary transition-colors">
-                <Facebook className="h-4 w-4" />
-              </a>
-              <a href="#" className="w-9 h-9 rounded-full bg-cream-400/10 flex items-center justify-center hover:bg-primary transition-colors">
-                <MessageCircle className="h-4 w-4" />
-              </a>
+              {[Instagram, Facebook, MessageCircle].map((Icon, i) => (
+                <a
+                  key={i}
+                  href="#"
+                  className="w-9 h-9 rounded-full bg-[#3a312a] flex items-center justify-center hover:bg-[#d4af37] hover:text-[#2a231d] transition"
+                >
+                  <Icon size={16} />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Shop */}
+          {/* SHOP */}
           <div>
-            <h4 className="font-medium mb-4 text-cream-200">Shop</h4>
-            <ul className="space-y-2 text-sm text-cream-400 font-light">
-              <li><Link to="/category/earrings" className="hover:text-primary transition-colors">Earrings</Link></li>
-              <li><Link to="/category/necklaces" className="hover:text-primary transition-colors">Necklaces</Link></li>
-              <li><Link to="/category/mangalsutra" className="hover:text-primary transition-colors">Mangalsutra</Link></li>
-              <li><Link to="/category/rings" className="hover:text-primary transition-colors">Rings</Link></li>
-              <li><Link to="/category/bangles" className="hover:text-primary transition-colors">Bangles</Link></li>
+            <h4 className="font-medium mb-4 text-[#f0e6d8]">Shop</h4>
+            <ul className="space-y-2 text-sm text-[#d8cfc2]">
+              {[
+                ["Earrings", "/category/earrings"],
+                ["Necklaces", "/category/necklaces"],
+                ["Mangalsutra", "/category/mangalsutra"],
+                ["Rings", "/category/rings"],
+                ["Bangles", "/category/bangles"],
+              ].map(([label, path]) => (
+                <li key={label}>
+                  <Link
+                    to={path}
+                    className="hover:text-[#d4af37] transition"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Help & Support */}
+          {/* HELP */}
           <div>
-            <h4 className="font-medium mb-4 text-cream-200">Help</h4>
-            <ul className="space-y-2 text-sm text-cream-400 font-light">
-              <li><Link to="/contact" className="hover:text-primary transition-colors">Contact Us</Link></li>
-              <li><Link to="/faq" className="hover:text-primary transition-colors">FAQ</Link></li>
-              <li><Link to="/shipping" className="hover:text-primary transition-colors">Shipping Policy</Link></li>
-              <li><Link to="/returns" className="hover:text-primary transition-colors">Returns & Refunds</Link></li>
-              <li><Link to="/about" className="hover:text-primary transition-colors">About Us</Link></li>
+            <h4 className="font-medium mb-4 text-[#f0e6d8]">Help</h4>
+            <ul className="space-y-2 text-sm text-[#d8cfc2]">
+              {[
+                ["Contact Us", "/contact"],
+                ["FAQ", "/faq"],
+                ["Shipping Policy", "/shipping"],
+                ["Returns & Refunds", "/returns"],
+                ["About Us", "/about"],
+              ].map(([label, path]) => (
+                <li key={label}>
+                  <Link
+                    to={path}
+                    className="hover:text-[#d4af37] transition"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* CONTACT */}
           <div>
-            <h4 className="font-medium mb-4 text-cream-200">Contact</h4>
-            <ul className="space-y-3 text-sm text-cream-400 font-light">
+            <h4 className="font-medium mb-4 text-[#f0e6d8]">Contact</h4>
+            <ul className="space-y-3 text-sm text-[#d8cfc2]">
               <li className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-primary" />
+                <Phone size={16} className="text-[#d4af37]" />
                 +91 98765 43210
               </li>
               <li className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-primary" />
+                <Mail size={16} className="text-[#d4af37]" />
                 hello@aureekajewels.com
               </li>
               <li className="flex items-start gap-2">
-                <MapPin className="h-4 w-4 text-primary mt-0.5" />
-                <span>Mumbai, Maharashtra, India</span>
+                <MapPin size={16} className="text-[#d4af37] mt-0.5" />
+                Mumbai, Maharashtra, India
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom */}
-        <div className="border-t border-cream-400/20 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-cream-500">
+        {/* BOTTOM BAR */}
+        <div className="border-t border-[#d4af37]/20 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[#cfc4b6]">
           <p>© 2024 Aureeka Jewels. All rights reserved.</p>
           <div className="flex gap-4">
-            <Link to="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
-            <Link to="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
+            <Link to="/privacy" className="hover:text-[#d4af37] transition">
+              Privacy Policy
+            </Link>
+            <Link to="/terms" className="hover:text-[#d4af37] transition">
+              Terms of Service
+            </Link>
           </div>
         </div>
+
       </div>
     </footer>
   );
