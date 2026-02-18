@@ -9,9 +9,8 @@ const CustomStar = ({ filled }: { filled: boolean }) => (
   <svg
     viewBox="0 0 20 20"
     fill="currentColor"
-    className={`h-3 w-3 ${
-      filled ? "text-foreground" : "text-muted-foreground/30"
-    }`}
+    className={`h-3 w-3 ${filled ? "text-foreground" : "text-muted-foreground/30"
+      }`}
   >
     <path
       fillRule="evenodd"
@@ -21,12 +20,22 @@ const CustomStar = ({ filled }: { filled: boolean }) => (
   </svg>
 );
 
+interface ProductDescriptionProps {
+  product: any;
+}
+
 /* ================= MAIN ================= */
-const ProductDescription = () => {
+const ProductDescription = ({ product }: ProductDescriptionProps) => {
   const [openSection, setOpenSection] = useState<string | null>(null);
 
   const toggle = (key: string) =>
     setOpenSection(openSection === key ? null : key);
+
+  // Extract product details
+  const productDetails = product?.details || 'No description available';
+  const productName = product?.name || 'Product';
+  const productPrice = product?.unit_price || 'Price not available';
+  const productCode = product?.code || 'N/A';
 
   return (
     <div className="mt-8 border-t border-border">
@@ -39,21 +48,15 @@ const ProductDescription = () => {
         >
           Description
           <ChevronDown
-            className={`h-4 w-4 transition-transform ${
-              openSection === "description" ? "rotate-180" : ""
-            }`}
+            className={`h-4 w-4 transition-transform ${openSection === "description" ? "rotate-180" : ""
+              }`}
           />
         </Button>
 
         {openSection === "description" && (
           <div className="pb-6 space-y-4 text-sm font-light text-muted-foreground leading-relaxed">
             <p>
-              The Pantheon earrings embody architectural elegance with their
-              clean, geometric design inspired by classical Roman architecture.
-            </p>
-            <p>
-              Crafted from premium sterling silver with 18k gold plating, they
-              balance durability with timeless luxury.
+              {productDetails}
             </p>
           </div>
         )}
@@ -68,19 +71,19 @@ const ProductDescription = () => {
         >
           Product Details
           <ChevronDown
-            className={`h-4 w-4 transition-transform ${
-              openSection === "details" ? "rotate-180" : ""
-            }`}
+            className={`h-4 w-4 transition-transform ${openSection === "details" ? "rotate-180" : ""
+              }`}
           />
         </Button>
 
         {openSection === "details" && (
           <div className="pb-6 space-y-3 text-sm">
             {[
-              ["SKU", "LE-PTH-001"],
-              ["Collection", "Architectural Series"],
-              ["Closure", "Post and butterfly back"],
+              ["SKU", productCode],
+              ["Collection", "Aureeka Premium Collection"],
+              ["Closure", "Push-back or hook closure"],
               ["Hypoallergenic", "Yes"],
+              ["Price", `₹${productPrice}`],
             ].map(([label, value]) => (
               <div key={label} className="flex justify-between">
                 <span className="text-muted-foreground">{label}</span>
@@ -100,9 +103,8 @@ const ProductDescription = () => {
         >
           Care & Cleaning
           <ChevronDown
-            className={`h-4 w-4 transition-transform ${
-              openSection === "care" ? "rotate-180" : ""
-            }`}
+            className={`h-4 w-4 transition-transform ${openSection === "care" ? "rotate-180" : ""
+              }`}
           />
         </Button>
 
@@ -133,9 +135,8 @@ const ProductDescription = () => {
             </div>
           </div>
           <ChevronDown
-            className={`h-4 w-4 transition-transform ${
-              openSection === "reviews" ? "rotate-180" : ""
-            }`}
+            className={`h-4 w-4 transition-transform ${openSection === "reviews" ? "rotate-180" : ""
+              }`}
           />
         </Button>
 

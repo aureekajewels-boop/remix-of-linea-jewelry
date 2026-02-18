@@ -44,7 +44,7 @@
 
 //   const handleTouchEnd = () => {
 //     if (!touchStartX.current || !touchEndX.current) return;
-    
+
 //     const difference = touchStartX.current - touchEndX.current;
 //     const minSwipeDistance = 50;
 
@@ -99,7 +99,7 @@
 //               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 select-none"
 //             />
 //           </div>
-          
+
 //           {/* Dots indicator */}
 //           <div className="flex justify-center mt-4 gap-2">
 //             {productImages.map((_, index) => (
@@ -130,28 +130,101 @@
 import { useState, useRef, useEffect } from "react";
 import ImageZoom from "./ImageZoom";
 
-import pantheonImage from "@/assets/pantheon.jpg";
-import eclipseImage from "@/assets/eclipse.jpg";
-import haloImage from "@/assets/halo.jpg";
-import organicEarring from "@/assets/organic-earring.png";
-import linkBracelet from "@/assets/link-bracelet.png";
+interface ProductImageGalleryProps {
+  product: any;
+}
 
-const productImages = [
-  pantheonImage,
-  organicEarring,
-  eclipseImage,
-  linkBracelet,
-  haloImage,
-];
-
-const ProductImageGallery = () => {
+const ProductImageGallery = ({ product }: ProductImageGalleryProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isZoomOpen, setIsZoomOpen] = useState(false);
   const [zoomIndex, setZoomIndex] = useState(0);
+  const [isAutoplayPaused, setIsAutoplayPaused] = useState(false);
+  const [desktopCurrentIndex, setDesktopCurrentIndex] = useState(0);
 
   const sliderRef = useRef<HTMLDivElement>(null);
+  const desktopSliderRef = useRef<HTMLDivElement>(null);
+  const autoplayIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const desktopAutoplayRef = useRef<NodeJS.Timeout | null>(null);
 
-  /* ================= SYNC DOTS ON SCROLL ================= */
+  // Extract product images from product data
+  const productImages = product?.images_full_url?.map((img: any) => img.path) || [];
+
+  // Autoplay configuration
+  const AUTOPLAY_INTERVAL = 3000; // 3 seconds between slides
+
+  /* ================= MOBILE/TABLET AUTOPLAY ================= */
+  useEffect(() => {
+    // Only enable autoplay if there are multiple images and not paused
+    if (productImages.length <= 1 || isAutoplayPaused || isZoomOpen) return;
+
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const startAutoplay = () => {
+      autoplayIntervalRef.current = setInterval(() => {
+        setCurrentIndex((prevIndex) => {
+          const nextIndex = (prevIndex + 1) % productImages.length;
+
+          // Scroll to next image on mobile/tablet
+          if (sliderRef.current) {
+            sliderRef.current.scrollTo({
+              left: nextIndex * (sliderRef.current.clientWidth || 0),
+              behavior: "smooth",
+            });
+          }
+
+          return nextIndex;
+        });
+      }, AUTOPLAY_INTERVAL);
+    };
+
+    startAutoplay();
+
+    return () => {
+      if (autoplayIntervalRef.current) {
+        clearInterval(autoplayIntervalRef.current);
+      }
+    };
+  }, [productImages.length, isAutoplayPaused, isZoomOpen]);
+
+  /* ================= DESKTOP AUTOPLAY ================= */
+  useEffect(() => {
+    // Only enable autoplay if there are multiple images and not paused
+    if (productImages.length <= 1 || isAutoplayPaused || isZoomOpen) return;
+
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const startDesktopAutoplay = () => {
+      desktopAutoplayRef.current = setInterval(() => {
+        setDesktopCurrentIndex((prevIndex) => {
+          const nextIndex = (prevIndex + 1) % productImages.length;
+
+          // Horizontal smooth scroll on desktop
+          if (desktopSliderRef.current) {
+            desktopSliderRef.current.scrollTo({
+              left: nextIndex * (desktopSliderRef.current.clientWidth || 0),
+              behavior: "smooth",
+            });
+          }
+
+          return nextIndex;
+        });
+      }, AUTOPLAY_INTERVAL);
+    };
+
+    startDesktopAutoplay();
+
+    return () => {
+      if (desktopAutoplayRef.current) {
+        clearInterval(desktopAutoplayRef.current);
+      }
+    };
+  }, [productImages.length, isAutoplayPaused, isZoomOpen]);
+
+  /* ================= SYNC DOTS ON SCROLL - MOBILE ================= */
   useEffect(() => {
     const slider = sliderRef.current;
     if (!slider) return;
@@ -167,28 +240,81 @@ const ProductImageGallery = () => {
     return () => slider.removeEventListener("scroll", handleScroll);
   }, []);
 
+  /* ================= SYNC DOTS ON SCROLL - DESKTOP ================= */
+  useEffect(() => {
+    const slider = desktopSliderRef.current;
+    if (!slider) return;
+
+    const handleScroll = () => {
+      const index = Math.round(
+        slider.scrollLeft / slider.clientWidth
+      );
+      setDesktopCurrentIndex(index);
+    };
+
+    slider.addEventListener("scroll", handleScroll);
+    return () => slider.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const openZoom = (index: number) => {
     setZoomIndex(index);
     setIsZoomOpen(true);
   };
 
+  const handleDotClick = (index: number) => {
+    setCurrentIndex(index);
+    sliderRef.current?.scrollTo({
+      left: index * (sliderRef.current?.clientWidth || 0),
+      behavior: "smooth",
+    });
+  };
+
   return (
-    <div className="w-full">
-      {/* ================= DESKTOP ================= */}
-      <div className="hidden lg:block space-y-4">
-        {productImages.map((img, index) => (
-          <div
-            key={index}
-            className="aspect-square cursor-pointer overflow-hidden"
-            onClick={() => openZoom(index)}
-          >
-            <img
-              src={img}
-              alt={`Product ${index + 1}`}
-              className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+    <div className="w-full max-w-2xl mx-auto">
+      {/* ================= DESKTOP - HORIZONTAL CAROUSEL ================= */}
+      <div className="hidden lg:block">
+        <div
+          ref={desktopSliderRef}
+          className="flex w-full overflow-x-auto snap-x snap-mandatory scroll-smooth"
+          onMouseEnter={() => setIsAutoplayPaused(true)}
+          onMouseLeave={() => setIsAutoplayPaused(false)}
+        >
+          {productImages.map((img, index) => (
+            <div
+              key={index}
+              className="w-full flex-shrink-0 snap-center cursor-pointer overflow-hidden"
+              style={{ aspectRatio: '3/4', maxHeight: '580px' }}
+              onClick={() => openZoom(index)}
+            >
+              <img
+                src={img}
+                alt={`Product ${index + 1}`}
+                className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop Dots Navigation */}
+        <div className="mt-4 flex justify-center gap-2">
+          {productImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                setDesktopCurrentIndex(index);
+                desktopSliderRef.current?.scrollTo({
+                  left: index * (desktopSliderRef.current?.clientWidth || 0),
+                  behavior: "smooth",
+                });
+              }}
+              className={`h-2 w-2 rounded-full transition-colors ${desktopCurrentIndex === index
+                ? "bg-foreground"
+                : "bg-muted"
+                }`}
+              aria-label={`Go to image ${index + 1}`}
             />
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* ================= MOBILE / TABLET ================= */}
@@ -196,17 +322,22 @@ const ProductImageGallery = () => {
         <div
           ref={sliderRef}
           className="flex w-full overflow-x-auto snap-x snap-mandatory scroll-smooth"
+          onMouseEnter={() => setIsAutoplayPaused(true)}
+          onMouseLeave={() => setIsAutoplayPaused(false)}
+          onTouchStart={() => setIsAutoplayPaused(true)}
+          onTouchEnd={() => setIsAutoplayPaused(false)}
         >
           {productImages.map((img, index) => (
             <div
               key={index}
               className="w-full flex-shrink-0 snap-center"
+              style={{ aspectRatio: '3/4', maxHeight: '480px' }}
               onClick={() => openZoom(index)}
             >
               <img
                 src={img}
                 alt={`Product ${index + 1}`}
-                className="aspect-square w-full object-cover"
+                className="h-full w-full object-cover"
               />
             </div>
           ))}
@@ -217,19 +348,12 @@ const ProductImageGallery = () => {
           {productImages.map((_, index) => (
             <button
               key={index}
-              onClick={() => {
-                sliderRef.current?.scrollTo({
-                  left:
-                    index *
-                    (sliderRef.current?.clientWidth || 0),
-                  behavior: "smooth",
-                });
-              }}
-              className={`h-2 w-2 rounded-full transition-colors ${
-                currentIndex === index
-                  ? "bg-foreground"
-                  : "bg-muted"
-              }`}
+              onClick={() => handleDotClick(index)}
+              className={`h-2 w-2 rounded-full transition-colors ${currentIndex === index
+                ? "bg-foreground"
+                : "bg-muted"
+                }`}
+              aria-label={`Go to image ${index + 1}`}
             />
           ))}
         </div>

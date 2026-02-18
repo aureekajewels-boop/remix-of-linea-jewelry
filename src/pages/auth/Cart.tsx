@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 
 import AureekaHeader from "@/components/header/AureekaHeader";
 import AureekaFooter from "@/components/footer/AureekaFooter";
+import { useCart } from "@/contexts/CartContext";
 
 const Cart = () => {
-  const cartItems: any[] = []; // future backend / context
+  const { cartItems, loading, totalItems, totalPrice } = useCart();
 
   return (
     <>

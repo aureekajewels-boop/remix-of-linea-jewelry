@@ -53,7 +53,7 @@
 //             to="/new-arrivals"
 //             className="mt-4 md:mt-0 text-primary font-medium text-sm"
 //           >
-//             View All New Arrivals →
+//             View All Latest Sparkles →
 //           </Link>
 //         </div>
 
@@ -154,10 +154,12 @@ import { Heart, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { api } from "@/lib/api";
+import { useCart } from "@/contexts/CartContext";
 
 const LatestSparkles = () => {
   const [products, setProducts] = useState<any[]>([]);
   const [wishlist, setWishlist] = useState<number[]>([]);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const fetchLatestProducts = async () => {
@@ -198,7 +200,7 @@ const LatestSparkles = () => {
             to="/new-arrivals"
             className="mt-4 md:mt-0 text-primary font-medium text-sm"
           >
-            View All New Arrivals →
+            View All Latest Sparkles →
           </Link>
         </div>
 
@@ -211,9 +213,9 @@ const LatestSparkles = () => {
             const finalPrice =
               product.discount_type === "percent"
                 ? Math.round(
-                    product.unit_price -
-                      (product.unit_price * product.discount) / 100
-                  )
+                  product.unit_price -
+                  (product.unit_price * product.discount) / 100
+                )
                 : product.unit_price - product.discount;
 
             return (
@@ -244,11 +246,10 @@ const LatestSparkles = () => {
                     className="absolute top-3 right-3 w-9 h-9 bg-white rounded-full flex items-center justify-center shadow"
                   >
                     <Heart
-                      className={`h-4 w-4 ${
-                        wishlist.includes(product.id)
-                          ? "fill-red-500 text-red-500"
-                          : "text-gray-600"
-                      }`}
+                      className={`h-4 w-4 ${wishlist.includes(product.id)
+                        ? "fill-red-500 text-red-500"
+                        : "text-gray-600"
+                        }`}
                     />
                   </button>
                 </div>
@@ -274,7 +275,7 @@ const LatestSparkles = () => {
                   <Button
                     size="sm"
                     className="mt-4 px-6 flex items-center gap-2 mx-auto"
-                    onClick={() => console.log("Add to cart", product.id)}
+                    onClick={async () => { try { await addToCart(product.id); } catch (error) { console.error(error); } }}
                   >
                     <ShoppingBag className="h-4 w-4" />
                     Add to Cart

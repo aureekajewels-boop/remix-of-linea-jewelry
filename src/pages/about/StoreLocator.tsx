@@ -12,7 +12,7 @@ const StoreLocator = () => {
   return (
     <div className="min-h-screen bg-background">
       <AureekaHeader />
-      
+
       <main className="pt-6 pb-16">
         <div className="container mx-auto px-4 max-w-4xl">
           {/* Header */}
@@ -34,7 +34,7 @@ const StoreLocator = () => {
               Shop Online, Deliver Pan India
             </h2>
             <p className="text-muted-foreground max-w-lg mx-auto mb-6">
-              We deliver beautiful jewellery right to your doorstep across India. 
+              We deliver beautiful jewellery right to your doorstep across India.
               Browse our collection online and enjoy free shipping on orders above ₹999.
             </p>
             <Button className="rounded-full" size="lg">
@@ -50,7 +50,7 @@ const StoreLocator = () => {
               </div>
               <h3 className="font-semibold text-foreground mb-2">Our Location</h3>
               <p className="text-sm text-muted-foreground">
-                Mumbai, Maharashtra<br />India
+                Indore, Madhya Pradesh<br />India
               </p>
             </div>
             <div className="bg-cream-50 rounded-2xl p-6 text-center">
@@ -68,7 +68,7 @@ const StoreLocator = () => {
               </div>
               <h3 className="font-semibold text-foreground mb-2">Contact</h3>
               <p className="text-sm text-muted-foreground">
-                +91 98765 43210<br />hello@aureekajewels.com
+                +91 9179518505<br />info@aureekajewels.com
               </p>
             </div>
           </div>
@@ -79,13 +79,13 @@ const StoreLocator = () => {
               Physical Stores Coming Soon! 🎉
             </h2>
             <p className="text-muted-foreground max-w-lg mx-auto">
-              We're working on opening physical stores in major cities. 
+              We're working on opening physical stores in major cities.
               Subscribe to our newsletter to be the first to know when we launch!
             </p>
           </div>
         </div>
       </main>
-      
+
       <AureekaFooter />
     </div>
   );

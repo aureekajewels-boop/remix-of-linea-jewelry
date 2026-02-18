@@ -15,7 +15,7 @@ const CustomerCare = () => {
   return (
     <div className="min-h-screen bg-background">
       <AureekaHeader />
-      
+
       <main className="pt-6 pb-16">
         <div className="container mx-auto px-4 max-w-4xl">
           {/* Header */}
@@ -35,7 +35,7 @@ const CustomerCare = () => {
                 <Phone className="h-5 w-5 text-primary" />
               </div>
               <h3 className="font-semibold text-foreground mb-2">Call Us</h3>
-              <p className="text-muted-foreground text-sm mb-1">+91 98765 43210</p>
+              <p className="text-muted-foreground text-sm mb-1">+91 9179518505</p>
               <p className="text-xs text-muted-foreground">Mon-Sat: 10AM-7PM IST</p>
             </div>
             <div className="bg-cream-50 rounded-2xl p-6 text-center">
@@ -43,7 +43,7 @@ const CustomerCare = () => {
                 <Mail className="h-5 w-5 text-primary" />
               </div>
               <h3 className="font-semibold text-foreground mb-2">Email Us</h3>
-              <p className="text-muted-foreground text-sm mb-1">hello@aureekajewels.com</p>
+              <p className="text-muted-foreground text-sm mb-1">info@aureekajewels.com</p>
               <p className="text-xs text-muted-foreground">Response within 24 hours</p>
             </div>
             <div className="bg-cream-50 rounded-2xl p-6 text-center">
@@ -51,7 +51,7 @@ const CustomerCare = () => {
                 <MessageCircle className="h-5 w-5 text-primary" />
               </div>
               <h3 className="font-semibold text-foreground mb-2">WhatsApp</h3>
-              <p className="text-muted-foreground text-sm mb-1">+91 98765 43210</p>
+              <p className="text-muted-foreground text-sm mb-1">+91 9179518505</p>
               <p className="text-xs text-muted-foreground">Quick responses</p>
             </div>
           </div>
@@ -127,8 +127,8 @@ const CustomerCare = () => {
                 <Input className="rounded-full" placeholder="Order Number (Optional)" />
               </div>
               <div>
-                <Textarea 
-                  className="rounded-xl min-h-[120px]" 
+                <Textarea
+                  className="rounded-xl min-h-[120px]"
                   placeholder="How can we help you?"
                 />
               </div>
@@ -139,7 +139,7 @@ const CustomerCare = () => {
           </div>
         </div>
       </main>
-      
+
       <AureekaFooter />
     </div>
   );

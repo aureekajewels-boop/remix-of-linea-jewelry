@@ -1,91 +1,135 @@
-const Footer = () => {
+
+import { Link } from "react-router-dom";
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Instagram,
+  Facebook,
+  MessageCircle,
+} from "lucide-react";
+
+const AureekaFooter = () => {
   return (
-    <footer className="w-full bg-white text-black pt-8 pb-2 px-6 border-t border-[#e5e5e5] mt-48">
-      <div className="">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-8">
-          {/* Brand - Left side */}
+    <footer className="bg-[#2a231d] text-[#f5efe6] pt-14 pb-6">
+      <div className="container mx-auto px-6">
+
+        {/* TOP GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+
+          {/* BRAND */}
           <div>
-            <img 
-              src="/Linea_Jewelry_Inc-2.svg" 
-              alt="Linea Jewelry Inc." 
-              className="mb-4 h-6 w-auto"
-            />
-            <p className="text-sm font-light text-black/70 leading-relaxed max-w-md mb-6">
-              Minimalist jewelry crafted for the modern individual
+            <h3 className="font-serif text-2xl text-[#d4af37] mb-4">
+              Aureeka Jewels
+            </h3>
+            <p className="text-sm text-[#e6dccf] leading-relaxed mb-4">
+              Affordable fashion jewellery for the modern woman.
             </p>
-            
-            {/* Contact Information */}
-            <div className="space-y-2 text-sm font-light text-black/70">
-              <div>
-                <p className="font-normal text-black mb-1">Visit Us</p>
-                <p>123 Madison Avenue</p>
-                <p>New York, NY 10016</p>
-              </div>
-              <div>
-                <p className="font-normal text-black mb-1 mt-3">Contact</p>
-                <p>+1 (212) 555-0123</p>
-                <p>hello@lineajewelry.com</p>
-              </div>
+
+            <div className="flex gap-3">
+              {[Instagram, Facebook].map((Icon, i) => {
+                const links = [
+                  "https://www.instagram.com/aureekajewels/",
+                  "https://www.facebook.com/profile.php",
+                  "#"
+                ];
+                return (
+                  <a
+                    key={i}
+                    href={links[i]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 rounded-full bg-[#3a312a] flex items-center justify-center hover:bg-[#d4af37] hover:text-[#2a231d] transition"
+                  >
+                    <Icon size={16} />
+                  </a>
+                );
+              })}
             </div>
           </div>
 
-          {/* Link lists - Right side */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Shop */}
-            <div>
-              <h4 className="text-sm font-normal mb-4">Shop</h4>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-sm font-light text-black/70 hover:text-black transition-colors">New In</a></li>
-                <li><a href="#" className="text-sm font-light text-black/70 hover:text-black transition-colors">Rings</a></li>
-                <li><a href="#" className="text-sm font-light text-black/70 hover:text-black transition-colors">Earrings</a></li>
-                <li><a href="#" className="text-sm font-light text-black/70 hover:text-black transition-colors">Bracelets</a></li>
-                <li><a href="#" className="text-sm font-light text-black/70 hover:text-black transition-colors">Necklaces</a></li>
-              </ul>
-            </div>
+          {/* SHOP */}
+          <div>
+            <h4 className="font-medium mb-4 text-[#f0e6d8]">Shop</h4>
+            <ul className="space-y-2 text-sm text-[#d8cfc2]">
+              {[
+                ["Earrings", "/category/earrings"],
+                ["Necklaces", "/category/necklaces"],
+                ["Mangalsutra", "/category/mangalsutra"],
+                ["Rings", "/category/rings"],
+                ["Bangles", "/category/bangles"],
+              ].map(([label, path]) => (
+                <li key={label}>
+                  <Link
+                    to={path}
+                    className="hover:text-[#d4af37] transition"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            {/* Support */}
-            <div>
-              <h4 className="text-sm font-normal mb-4">Support</h4>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-sm font-light text-black/70 hover:text-black transition-colors">Size Guide</a></li>
-                <li><a href="#" className="text-sm font-light text-black/70 hover:text-black transition-colors">Care Instructions</a></li>
-                <li><a href="#" className="text-sm font-light text-black/70 hover:text-black transition-colors">Returns</a></li>
-                <li><a href="#" className="text-sm font-light text-black/70 hover:text-black transition-colors">Shipping</a></li>
-                <li><a href="#" className="text-sm font-light text-black/70 hover:text-black transition-colors">Contact</a></li>
-              </ul>
-            </div>
+          {/* HELP */}
+          <div>
+            <h4 className="font-medium mb-4 text-[#f0e6d8]">Help</h4>
+            <ul className="space-y-2 text-sm text-[#d8cfc2]">
+              {[
+                ["Contact Us", "/contact"],
+                ["FAQ", "/faq"],
+                ["Shipping Policy", "/shipping"],
+                ["Returns & Refunds", "/returns"],
+                ["About Us", "/about"],
+              ].map(([label, path]) => (
+                <li key={label}>
+                  <Link
+                    to={path}
+                    className="hover:text-[#d4af37] transition"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            {/* Connect */}
-            <div>
-              <h4 className="text-sm font-normal mb-4">Connect</h4>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-sm font-light text-black/70 hover:text-black transition-colors">Instagram</a></li>
-                <li><a href="#" className="text-sm font-light text-black/70 hover:text-black transition-colors">Pinterest</a></li>
-                <li><a href="#" className="text-sm font-light text-black/70 hover:text-black transition-colors">Newsletter</a></li>
-              </ul>
-            </div>
+          {/* CONTACT */}
+          <div>
+            <h4 className="font-medium mb-4 text-[#f0e6d8]">Contact</h4>
+            <ul className="space-y-3 text-sm text-[#d8cfc2]">
+              <li className="flex items-center gap-2">
+                <Phone size={16} className="text-[#d4af37]" />
+                +91 9179518505
+              </li>
+              <li className="flex items-center gap-2">
+                <Mail size={16} className="text-[#d4af37]" />
+                info@aureekajewels.com
+              </li>
+              <li className="flex items-start gap-2">
+                <MapPin size={16} className="text-[#d4af37] mt-0.5" />
+                Indore, India
+              </li>
+            </ul>
           </div>
         </div>
-      </div>
 
-      {/* Bottom section - edge to edge separator */}
-      <div className="border-t border-[#e5e5e5] -mx-6 px-6 pt-2">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm font-light text-black mb-1 md:mb-0">
-            © 2024 Linea. All rights reserved.
-          </p>
-          <div className="flex space-x-6">
-            <a href="/privacy-policy" className="text-sm font-light text-black hover:text-black/70 transition-colors">
+        {/* BOTTOM BAR */}
+        <div className="border-t border-[#d4af37]/20 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[#cfc4b6]">
+          <p>© 2024 Aureeka Jewels. All rights reserved.</p>
+          <div className="flex gap-4">
+            <Link to="/privacy" className="hover:text-[#d4af37] transition">
               Privacy Policy
-            </a>
-            <a href="/terms-of-service" className="text-sm font-light text-black hover:text-black/70 transition-colors">
+            </Link>
+            <Link to="/terms" className="hover:text-[#d4af37] transition">
               Terms of Service
-            </a>
+            </Link>
           </div>
         </div>
+
       </div>
     </footer>
   );
 };
 
-export default Footer;
+export default AureekaFooter;

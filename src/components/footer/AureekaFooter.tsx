@@ -1,5 +1,6 @@
 
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import {
   Phone,
   Mail,
@@ -8,8 +9,34 @@ import {
   Facebook,
   MessageCircle,
 } from "lucide-react";
+import { fetchHomeCategories } from "@/lib/controller/OrnamentHubController";
 
 const AureekaFooter = () => {
+  const [categories, setCategories] = useState([]);
+
+  // Fetch categories from API
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const data = await fetchHomeCategories();
+        // Filter only top-level categories (parent_id === 0)
+        const topLevelCategories = (Array.isArray(data) ? data : [])
+          .filter(cat => cat.parent_id === 0)
+          .sort((a, b) => a.priority - b.priority)
+          .map(cat => ({
+            name: cat.name,
+            href: `/category/${cat.slug}`,
+            id: cat.id
+          }));
+
+        setCategories(topLevelCategories);
+      } catch (error) {
+        console.error("Failed to load categories:", error);
+      }
+    };
+
+    loadCategories();
+  }, []);
   return (
     <footer className="bg-[#2a231d] text-[#f5efe6] pt-14 pb-6">
       <div className="container mx-auto px-6">
@@ -27,35 +54,38 @@ const AureekaFooter = () => {
             </p>
 
             <div className="flex gap-3">
-              {[Instagram, Facebook, MessageCircle].map((Icon, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="w-9 h-9 rounded-full bg-[#3a312a] flex items-center justify-center hover:bg-[#d4af37] hover:text-[#2a231d] transition"
-                >
-                  <Icon size={16} />
-                </a>
-              ))}
+              {[Instagram, Facebook].map((Icon, i) => {
+                const links = [
+                  "https://www.instagram.com/aureekajewels/",
+                  "https://www.facebook.com/profile.php",
+                  "#"
+                ];
+                return (
+                  <a
+                    key={i}
+                    href={links[i]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 rounded-full bg-[#3a312a] flex items-center justify-center hover:bg-[#d4af37] hover:text-[#2a231d] transition"
+                  >
+                    <Icon size={16} />
+                  </a>
+                );
+              })}
             </div>
           </div>
 
-          {/* SHOP */}
+          {/* SHOP - Dynamic Categories */}
           <div>
             <h4 className="font-medium mb-4 text-[#f0e6d8]">Shop</h4>
             <ul className="space-y-2 text-sm text-[#d8cfc2]">
-              {[
-                ["Earrings", "/category/earrings"],
-                ["Necklaces", "/category/necklaces"],
-                ["Mangalsutra", "/category/mangalsutra"],
-                ["Rings", "/category/rings"],
-                ["Bangles", "/category/bangles"],
-              ].map(([label, path]) => (
-                <li key={label}>
+              {categories.map((category) => (
+                <li key={category.id}>
                   <Link
-                    to={path}
+                    to={category.href}
                     className="hover:text-[#d4af37] transition"
                   >
-                    {label}
+                    {category.name}
                   </Link>
                 </li>
               ))}
@@ -91,15 +121,15 @@ const AureekaFooter = () => {
             <ul className="space-y-3 text-sm text-[#d8cfc2]">
               <li className="flex items-center gap-2">
                 <Phone size={16} className="text-[#d4af37]" />
-                +91 98765 43210
+                +91 9179518505
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={16} className="text-[#d4af37]" />
-                hello@aureekajewels.com
+                info@aureekajewels.com
               </li>
               <li className="flex items-start gap-2">
                 <MapPin size={16} className="text-[#d4af37] mt-0.5" />
-                Mumbai, Maharashtra, India
+                Indore, Madhya Pradesh, India
               </li>
             </ul>
           </div>

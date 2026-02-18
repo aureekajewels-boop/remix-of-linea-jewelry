@@ -8,11 +8,13 @@ import { api } from "@/lib/api";
 /* 👉 Header & Footer */
 import AureekaHeader from "@/components/header/AureekaHeader";
 import Footer from "@/components/footer/Footer";
+import { useCart } from "@/contexts/CartContext";
 
 const NewArrivals = () => {
   const [products, setProducts] = useState<any[]>([]);
   const [wishlist, setWishlist] = useState<number[]>([]);
   const [page, setPage] = useState(1);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     fetchProducts();
@@ -26,7 +28,7 @@ const NewArrivals = () => {
 
       setProducts((prev) => [...prev, ...(res.data?.products || [])]);
     } catch (err) {
-      console.error("Failed to load new arrivals", err);
+      console.error("Failed to load Latest Sparkles", err);
     }
   };
 
@@ -50,7 +52,7 @@ const NewArrivals = () => {
               New Collection
             </p>
             <h1 className="text-4xl font-display font-medium mt-2">
-              New Arrivals
+              Latest Sparkles
             </h1>
           </div>
 
@@ -63,9 +65,9 @@ const NewArrivals = () => {
               const finalPrice =
                 product.discount_type === "percent"
                   ? Math.round(
-                      product.unit_price -
-                        (product.unit_price * product.discount) / 100
-                    )
+                    product.unit_price -
+                    (product.unit_price * product.discount) / 100
+                  )
                   : product.unit_price - product.discount;
 
               return (
@@ -95,11 +97,10 @@ const NewArrivals = () => {
                       className="absolute top-3 right-3 w-9 h-9 bg-white rounded-full flex items-center justify-center shadow"
                     >
                       <Heart
-                        className={`h-4 w-4 ${
-                          wishlist.includes(product.id)
-                            ? "fill-red-500 text-red-500"
-                            : "text-gray-600"
-                        }`}
+                        className={`h-4 w-4 ${wishlist.includes(product.id)
+                          ? "fill-red-500 text-red-500"
+                          : "text-gray-600"
+                          }`}
                       />
                     </button>
                   </div>
@@ -128,7 +129,7 @@ const NewArrivals = () => {
                     <Button
                       size="sm"
                       className="mt-4 px-6 mx-auto flex items-center gap-2"
-                      onClick={() => console.log("Add to cart", product.id)}
+                      onClick={async () => { try { await addToCart(product.id); } catch (error) { console.error(error); } }}
                     >
                       <ShoppingBag className="h-4 w-4" />
                       Add to Cart

@@ -1,6 +1,8 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { fetchHomeCategories } from "@/lib/controller/OrnamentHubController";
+import { fetchWishlist } from "@/lib/controller/WishlistController";
 import {
   Search,
   Heart,
@@ -29,9 +31,10 @@ const AureekaHeader = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [openNotification, setOpenNotification] = useState(false);
+  const [categories, setCategories] = useState([]);
 
   const cartCount = 0;
-  const wishlistCount = 0;
+  const [wishlistCount, setWishlistCount] = useState(0);
   const notificationCount = 0;
 
   const toggleTheme = () => {
@@ -39,20 +42,54 @@ const AureekaHeader = () => {
     document.documentElement.classList.toggle("dark");
   };
 
-  const categories = [
-    { name: "Earrings", href: "/category/earrings" },
-    { name: "Necklaces", href: "/category/necklaces" },
-    { name: "Mangalsutra", href: "/category/mangalsutra" },
-    { name: "Rings", href: "/category/rings" },
-  ];
+  // Fetch categories from API - Only 4 categories
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const data = await fetchHomeCategories();
+        // Filter only top-level categories (parent_id === 0) and limit to 4
+        const topLevelCategories = (Array.isArray(data) ? data : [])
+          .filter(cat => cat.parent_id === 0)
+          .sort((a, b) => a.priority - b.priority)
+          .slice(0, 4) // Limit to 4 categories
+          .map(cat => ({
+            name: cat.name,
+            href: `/category/${cat.slug}`,
+            id: cat.id
+          }));
+
+        setCategories(topLevelCategories);
+      } catch (error) {
+        console.error("Failed to load categories:", error);
+      }
+    };
+
+    loadCategories();
+  }, []);
+
+  // Fetch wishlist count
+  useEffect(() => {
+    const loadWishlist = async () => {
+      try {
+        const wishlistData = await fetchWishlist();
+        console.log("💖 Wishlist data loaded:", wishlistData);
+        setWishlistCount(wishlistData.length);
+      } catch (error) {
+        console.error("Failed to load wishlist:", error);
+        setWishlistCount(0);
+      }
+    };
+
+    loadWishlist();
+  }, []);
 
   return (
     <>
       <header className="sticky top-0 z-40 w-full">
         {/* Announcement */}
-        <div className="bg-primary text-primary-foreground text-center py-2 text-sm">
-          ✨ Free Shipping on Orders Above ₹999 | New Arrivals Every Week!
-        </div>
+        {/* <div className="bg-primary text-primary-foreground text-center py-2 text-sm">
+          ✨ Free Shipping on Orders Above ₹999 | Latest Sparkles Every Week!
+        </div> */}
 
         <nav className="bg-background/95 backdrop-blur border-b">
           <div className="container mx-auto px-4">
@@ -92,7 +129,7 @@ const AureekaHeader = () => {
                   </Link>
                 ))}
                 <Link to="/new-arrivals" className="text-primary text-sm">
-                  New Arrivals
+                  Latest Sparkles
                 </Link>
               </nav>
 
@@ -102,10 +139,15 @@ const AureekaHeader = () => {
                   <Search className="h-5 w-5" />
                 </Button>
 
-                <Link to="/wishlist" className="hidden md:block">
+                <Link to="/wishlist" className="hidden md:block relative">
                   <Button variant="ghost" size="icon">
                     <Heart className="h-5 w-5" />
                   </Button>
+                  {wishlistCount > 0 && (
+                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-600 text-white text-[10px] flex items-center justify-center">
+                      {wishlistCount}
+                    </span>
+                  )}
                 </Link>
 
                 {/* 🔔 Notifications */}

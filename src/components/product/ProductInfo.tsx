@@ -50,7 +50,7 @@
 //             <h1 className="text-2xl md:text-3xl font-light text-foreground">Pantheon</h1>
 //           </div>
 //           <div className="text-right">
-//             <p className="text-xl font-light text-foreground">€2,850</p>
+//             <p className="text-xl font-light text-foreground">₹2,850</p>
 //           </div>
 //         </div>
 //       </div>
@@ -61,17 +61,17 @@
 //           <h3 className="text-sm font-light text-foreground">Material</h3>
 //           <p className="text-sm font-light text-muted-foreground">18k Gold Plated Sterling Silver</p>
 //         </div>
-        
+
 //         <div className="space-y-2">
 //           <h3 className="text-sm font-light text-foreground">Dimensions</h3>
 //           <p className="text-sm font-light text-muted-foreground">2.5cm x 1.2cm</p>
 //         </div>
-        
+
 //         <div className="space-y-2">
 //           <h3 className="text-sm font-light text-foreground">Weight</h3>
 //           <p className="text-sm font-light text-muted-foreground">4.2g per earring</p>
 //         </div>
-        
+
 //         <div className="space-y-2">
 //           <h3 className="text-sm font-light text-foreground">Editor's notes</h3>
 //           <p className="text-sm font-light text-muted-foreground italic">"A modern interpretation of classical architecture, these earrings bridge timeless elegance with contemporary minimalism."</p>
@@ -108,7 +108,7 @@
 //         <Button 
 //           className="w-full h-12 bg-foreground text-background hover:bg-foreground/90 font-light rounded-none"
 //         >
-//           Add to Bag
+//           Add to cart
 //         </Button>
 //       </div>
 //     </div>
@@ -128,12 +128,37 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Minus, Plus } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
 
-const ProductInfo = () => {
+interface ProductInfoProps {
+  product: any;
+  categoryName: string;
+}
+
+const ProductInfo = ({ product, categoryName }: ProductInfoProps) => {
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
 
   const increment = () => setQuantity((q) => q + 1);
   const decrement = () => setQuantity((q) => Math.max(1, q - 1));
+
+  const handleAddToCart = async () => {
+    try {
+      await addToCart(product.id, quantity);
+      // Optionally show success message
+    } catch (error) {
+      console.error('Failed to add to cart:', error);
+    }
+  };
+
+  // Extract product details or use defaults
+  const productName = product?.name || 'Product';
+  const productPrice = product?.unit_price ? `₹${product.unit_price}` : 'Price not available';
+  const productDetails = product?.details || 'No description available';
+
+  // Extract product images
+  const productImages = product?.images_full_url || [];
+  const mainImage = productImages.length > 0 ? productImages[0].path : null;
 
   return (
     <>
@@ -153,14 +178,14 @@ const ProductInfo = () => {
 
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link to="/category/earrings">Earrings</Link>
+                  <Link to={`/category/${product?.category_id || 'earrings'}`}>{categoryName}</Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
 
               <BreadcrumbSeparator />
 
               <BreadcrumbItem>
-                <BreadcrumbPage>Pantheon</BreadcrumbPage>
+                <BreadcrumbPage>{productName}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -168,29 +193,28 @@ const ProductInfo = () => {
 
         {/* Category */}
         <p className="text-xs uppercase tracking-wide text-muted-foreground">
-          Earrings
+          {categoryName}
         </p>
 
         {/* Title + Price */}
         <div className="flex items-start justify-between gap-4">
           <h1 className="text-2xl font-light leading-snug lg:text-3xl">
-            Pantheon
+            {productName}
           </h1>
           <span className="text-xl font-light lg:text-2xl whitespace-nowrap">
-            €2,850
+            {productPrice}
           </span>
         </div>
 
         {/* Key Details */}
         <div className="space-y-4 border-b border-border pb-6 text-sm">
-          <Detail label="Material" value="18k Gold Plated Sterling Silver" />
-          <Detail label="Dimensions" value="2.5cm × 1.2cm" />
-          <Detail label="Weight" value="4.2g per earring" />
+          <Detail label="Material" value="Premium Alloy with Stones" />
+          <Detail label="Dimensions" value="Varies by design" />
+          <Detail label="Weight" value="Lightweight" />
           <div>
-            <p className="font-medium">Editor’s notes</p>
+            <p className="font-medium">Product Description</p>
             <p className="italic text-muted-foreground">
-              “A modern interpretation of classical architecture, bridging
-              timeless elegance with contemporary minimalism.”
+              {productDetails}
             </p>
           </div>
         </div>
@@ -205,9 +229,12 @@ const ProductInfo = () => {
           />
         </div>
 
-        {/* Add to Bag – Desktop */}
-        <Button className="hidden lg:block h-12 rounded-none bg-foreground text-background hover:bg-foreground/90 font-light">
-          Add to Bag
+        {/* Add to cart – Desktop */}
+        <Button 
+          onClick={handleAddToCart}
+          className="hidden lg:block h-12 rounded-none bg-foreground text-background hover:bg-foreground/90 font-light"
+        >
+          Add to cart
         </Button>
       </div>
 
@@ -221,7 +248,10 @@ const ProductInfo = () => {
             compact
           />
 
-          <Button className="flex-1 h-11 rounded-none bg-foreground text-background font-light">
+          <Button 
+            onClick={handleAddToCart}
+            className="flex-1 h-11 rounded-none bg-foreground text-background font-light"
+          >
             Add to Cart
           </Button>
         </div>
@@ -251,9 +281,8 @@ const QuantityControl = ({
   compact?: boolean;
 }) => (
   <div
-    className={`flex items-center border border-border ${
-      compact ? "h-11" : ""
-    }`}
+    className={`flex items-center border border-border ${compact ? "h-11" : ""
+      }`}
   >
     <Button
       variant="ghost"

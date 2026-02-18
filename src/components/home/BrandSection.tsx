@@ -1,41 +1,84 @@
-import { Link } from "react-router-dom";
-import kundanImg from "@/assets/aureeka/kundan-necklace.jpg";
-import adImg from "@/assets/aureeka/ad-bracelet.jpg";
-import koreanImg from "@/assets/aureeka/korean-earrings.jpg";
-import oxidisedImg from "@/assets/aureeka/oxidised-earrings.jpg";
+// src/components/BrandSection.jsx
 
-const brands = [
-  {
-    name: "Kundan Jewellery",
-    description: "Traditional elegance with precious stones",
-    image: kundanImg,
-    href: "/brand/kundan",
-    accent: "from-amber-500/20",
-  },
-  {
-    name: "American Diamond",
-    description: "Sparkle like diamonds at affordable prices",
-    image: adImg,
-    href: "/brand/american-diamond",
-    accent: "from-blue-500/20",
-  },
-  {
-    name: "Korean Jewellery",
-    description: "Minimalist designs for modern style",
-    image: koreanImg,
-    href: "/brand/korean",
-    accent: "from-pink-500/20",
-  },
-  {
-    name: "Oxidised Jewellery",
-    description: "Vintage charm with antique finish",
-    image: oxidisedImg,
-    href: "/brand/oxidised",
-    accent: "from-gray-500/20",
-  },
-];
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { api } from "@/lib/api"; // ✅ Assumes you have axios instance at "@/lib/api"
 
 const BrandSection = () => {
+  const [brands, setBrands] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // ✅ Fetch brands from API - Pure API data, no fallback
+  const fetchBrandsForHomepage = async () => {
+    try {
+      const token = localStorage.getItem("auth_token");
+      const response = await api.get("/api/v1/brands", {
+        params: {
+          guest_id: token ? undefined : 1,
+        },
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+
+      console.log("🔍 Brands API Response:", response.data);
+
+      const brandList = Array.isArray(response.data?.brands)
+        ? response.data.brands
+        : [];
+
+      // ✅ Pure API mapping - using actual API structure
+      const mappedBrands = brandList
+        .filter(brand => brand.status === 1)
+        .map(brand => ({
+          id: brand.id,
+          name: brand.name,
+          image: brand.image_full_url?.path || "/placeholder.svg",
+          productCount: brand.brand_products_count || 0,
+        }));
+
+      console.log("✅ Mapped Brands:", mappedBrands);
+      return mappedBrands;
+    } catch (error) {
+      console.error("❌ Failed to load brands:", error);
+      return [];
+    }
+  };
+
+  // ✅ Load brands on mount
+  useEffect(() => {
+    const loadBrands = async () => {
+      setLoading(true);
+      const data = await fetchBrandsForHomepage();
+      setBrands(data);
+      setLoading(false);
+    };
+    loadBrands();
+  }, []);
+
+  // ✅ Loading State
+  if (loading) {
+    return (
+      <section className="py-12 md:py-16 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-10">
+            <h2 className="font-display text-3xl md:text-4xl font-medium">Elegance by Aureeka</h2>
+            <p className="text-muted-foreground font-light max-w-xl mx-auto">Loading brands...</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="bg-card rounded-xl h-[320px] animate-pulse" />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // ✅ Empty State - Hide section if no brands
+  if (brands.length === 0) {
+    return null;
+  }
+
+  // ✅ Render Brands
   return (
     <section className="py-12 md:py-16 bg-muted/30">
       <div className="container mx-auto px-4">
@@ -45,49 +88,39 @@ const BrandSection = () => {
             Shop by Style
           </p>
           <h2 className="font-display text-3xl md:text-4xl font-medium text-foreground mb-3">
-            Jewellery Brands
+            Elegance by Aureeka
           </h2>
           <p className="text-muted-foreground font-light max-w-xl mx-auto">
             From traditional kundan to trendy Korean styles, find your perfect match
           </p>
         </div>
 
-        {/* Brand Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Brand Grid - Similar to OrnamentHub */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {brands.map((brand, index) => (
             <Link
-              key={brand.name}
-              to={brand.href}
-              className="group relative bg-card rounded-xl overflow-hidden shadow-soft hover-lift"
+              key={brand.id}
+              to={`/brand/${brand.id}`}
+              className="group relative overflow-hidden rounded-lg aspect-[4/5]"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              {/* Image Container */}
-              <div className="aspect-[4/5] overflow-hidden">
-                <img
-                  src={brand.image}
-                  alt={brand.name}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-              </div>
+              {/* Image */}
+              <img
+                src={brand.image}
+                alt={brand.name}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                onError={(e) => (e.currentTarget.src = "/placeholder.svg")}
+              />
 
-              {/* Gradient overlay on hover */}
-              <div className={`absolute inset-0 bg-gradient-to-t ${brand.accent} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
               {/* Content */}
-              <div className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/80 via-black/50 to-transparent">
-                <h3 className="font-display text-xl text-white font-medium mb-1">
-                  {brand.name}
-                </h3>
-                <p className="text-white/70 text-sm font-light">
-                  {brand.description}
-                </p>
-              </div>
-
-              {/* Hover arrow indicator */}
-              <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
-                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
+              <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                <h3 className="text-lg font-medium mb-1">{brand.name}</h3>
+                {brand.productCount > 0 && (
+                  <p className="text-xs text-white/80">{brand.productCount}+ designs</p>
+                )}
               </div>
             </Link>
           ))}

@@ -23,18 +23,18 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
   if (!isOpen) return null;
 
   const subtotal = cartItems.reduce((sum, item) => {
-    const price = parseFloat(item.price.replace('€', '').replace(',', ''));
+    const price = parseFloat(item.price.replace('₹', '').replace(',', ''));
     return sum + (price * item.quantity);
   }, 0);
 
   return (
     <div className="fixed inset-0 z-50 h-screen">
       {/* Backdrop */}
-      <div 
+      <div
         className="absolute inset-0 bg-black/50 h-screen"
         onClick={onClose}
       />
-      
+
       {/* Off-canvas panel */}
       <div className="absolute right-0 top-0 h-screen w-96 bg-background border-l border-border animate-slide-in-right flex flex-col">
         {/* Header */}
@@ -48,7 +48,7 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
             <X size={20} />
           </button>
         </div>
-        
+
         {/* Content */}
         <div className="flex-1 flex flex-col p-6">
           {/* Mobile favorites toggle - only show on mobile */}
@@ -65,7 +65,7 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
               </button>
             </div>
           )}
-          
+
           {cartItems.length === 0 ? (
             <div className="flex-1 flex items-center justify-center">
               <p className="text-muted-foreground text-sm text-center">
@@ -80,8 +80,8 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
                 {cartItems.map((item) => (
                   <div key={item.id} className="flex gap-4">
                     <div className="w-20 h-20 bg-muted/10 rounded-lg overflow-hidden">
-                      <img 
-                        src={item.image} 
+                      <img
+                        src={item.image}
                         alt={item.name}
                         className="w-full h-full object-cover"
                       />
@@ -96,7 +96,7 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
                       </div>
                       <div className="flex items-center gap-2 mt-3">
                         <div className="flex items-center border border-border">
-                          <button 
+                          <button
                             onClick={() => updateQuantity(item.id, item.quantity - 1)}
                             className="p-2 hover:bg-muted/50 transition-colors"
                             aria-label="Decrease quantity"
@@ -106,7 +106,7 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
                           <span className="px-3 py-2 text-sm font-light min-w-[40px] text-center">
                             {item.quantity}
                           </span>
-                          <button 
+                          <button
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
                             className="p-2 hover:bg-muted/50 transition-colors"
                             aria-label="Increase quantity"
@@ -119,21 +119,21 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
                   </div>
                 ))}
               </div>
-              
+
               {/* Subtotal and checkout */}
               <div className="border-t border-border pt-6 space-y-4">
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-light text-foreground">Subtotal</span>
-                  <span className="text-sm font-medium text-foreground">€{subtotal.toLocaleString('en-EU', { minimumFractionDigits: 2 })}</span>
+                  <span className="text-sm font-medium text-foreground">₹{subtotal.toLocaleString('en-EU', { minimumFractionDigits: 2 })}</span>
                 </div>
-                
+
                 <p className="text-xs text-muted-foreground">
                   Shipping and taxes calculated at checkout
                 </p>
-                
-                <Button 
-                  asChild 
-                  className="w-full rounded-none" 
+
+                <Button
+                  asChild
+                  className="w-full rounded-none"
                   size="lg"
                   onClick={onClose}
                 >
@@ -141,10 +141,10 @@ const ShoppingBag = ({ isOpen, onClose, cartItems, updateQuantity, onViewFavorit
                     Proceed to Checkout
                   </Link>
                 </Button>
-                
-                <Button 
-                  variant="outline" 
-                  className="w-full rounded-none" 
+
+                <Button
+                  variant="outline"
+                  className="w-full rounded-none"
                   size="lg"
                   onClick={onClose}
                   asChild
